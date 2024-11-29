@@ -41,12 +41,12 @@ export const signup = async (req: any, res: any) => {
   
   export const login = async (req: any, res: any) => {
     try {
-      const { username, password } = req.body;
+      const { email, password } = req.body;
   
   
       const user = await db.user.findFirst({
         where: {
-          email: username.toLowerCase(),
+          email: email.toLowerCase(),
         },
       });
   

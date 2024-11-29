@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { BACKEND_URL } from "../contants";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -30,16 +31,15 @@ export default function Login() {
 
       if (!response.ok) {
         const errorData = await response.json();
+        console.log(errorData)
         setError(errorData.message || "Login failed. Please try again.");
       } else {
-        // Handle successful login (e.g., redirect or set user state)
         const data = await response.json();
         console.log("Login successful:", data);
-        console.log(data);
         localStorage.setItem('token',data.token);
-        window.localStorage.href = "/home";
+        window.location.href = "/home";
       }
-    } catch (err) {
+    } catch (err:any) {
       setError("An error occurred while logging in.");
     } finally {
       setLoading(false);

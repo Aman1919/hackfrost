@@ -24,7 +24,7 @@ export const authenticateJWT = async (
           id: true,
           name: true,
           email: true,
-          progress:true,
+          videos:true,
         },
       });
   

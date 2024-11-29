@@ -1,34 +1,28 @@
-// import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+import { useAuthStore } from "../store";
+import React from "react";
 
-// export const PrivateRoute = ({ children }: RouteProps) => {
-//     const { isLoading } = useGetUser(); // Fetch and set the user on component mount
-//     const user = usePersonStore((state) => state.user);
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { user ,loading} = useAuthStore();
+ if(loading){
+    return <h1>Loading....</h1>;
+ }
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
+
+  return <>{children}</>;
+};
+export const PublicRoute = ({ children }: { children: React.ReactNode }) => {
+    const { user ,loading} = useAuthStore();
+   if(loading){
+      return <h1>Loading....</h1>;
+   }
+    if (user) {
+      return <Navigate to="/home" />;
+    }
   
-//     if (isLoading) return <Spinner />;
-  
-//     if (!user) return <Navigate to="/login" />;
-  
-//     switch (user.role) {
-//       // case "ADMIN":
-//       //   return <Navigate to="/dashboard" />;
-//       // case "MODRATOR":
-//       //   return <ModratorDashboard />;
-//       default:
-//         return <>{children}</>;
-//     }
-//   };
-  
-//   export const PublicRoute = ({ children }: RouteProps) => {
-//     const { isLoading } = useGetUser(); // Fetch and set the user on component mount
-//     const user = usePersonStore((state) => state.user);
-  
-//     if (isLoading) return <Spinner />;
-  
-//     return user ? (
-//       <Navigate to="/game" />
-//     ) : (
-//       <>
-//         {children}
-//       </>
-//     );
-//   };
+    return <>{children}</>;
+  };
+
+export default ProtectedRoute;
