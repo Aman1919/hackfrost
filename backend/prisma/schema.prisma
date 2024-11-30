@@ -32,7 +32,7 @@ model Video {
   weeklyTime  String
   dailyTime   String
   createdAt   DateTime @default(now())
-
+  Notes       String    @default("")
   // Add the relation to the User model
   user        User     @relation("UserVideos", fields: [userid], references: [id]) 
 }

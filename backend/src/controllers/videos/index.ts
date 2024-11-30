@@ -1,5 +1,5 @@
 import { db } from "../../db";
-import { getYouTubeVideoDetails ,extractVideoId} from "../../utils/video";
+import { getYouTubeVideoDetails ,extractVideoId, getYoutubeVideoTranscribe} from "../../utils/video";
 
 export const AddVideo = async (req: any, res: any) => {
   try {
@@ -48,9 +48,20 @@ export const GetVideo = async (req: any, res: any) => {
       if (!id) {
         return res.status(400).json({ message: "Video ID is required" });
       }
-  
+      const video = await db.video.findUnique({
+        where:{
+          id
+        },
+        select:{
+          videoId:true,
+          Notes:true
+        }
+      })
+      if (!video) {
+        return res.status(400).json({ message: "Video  doesn't exists " });
+      }
       // Fetch video details
-      const videoDetails = await getYouTubeVideoDetails(id);
+      const videoDetails = await getYouTubeVideoDetails(video.videoId);
   
       // Check if video details are found
       if (!videoDetails) {
@@ -58,7 +69,7 @@ export const GetVideo = async (req: any, res: any) => {
       }
   
       // Return the video details in the response
-      return res.status(200).json({ videoDetails });
+      return res.status(200).json({ ...videoDetails ,...video,id});
     } catch (error) {
       // Log the error for debugging purposes
       console.error("Error fetching video details:", error);
@@ -68,3 +79,22 @@ export const GetVideo = async (req: any, res: any) => {
     }
   };
   
+export const GetVideoTranscript = async (req:any,res:any)=>{
+  try{
+    const { id } = req.params;
+    // Validate the video ID
+    if (!id) {
+      return res.status(400).json({ message: "Video ID is required" });
+    }
+    const videoTranscript = await getYoutubeVideoTranscribe(id);
+  
+    // Check if video details are found
+    if (!videoTranscript) {
+      return res.status(404).json({ message: "Video transcript not found" });
+    }
+
+    return res.status(200).json({ videoTranscript });
+  }catch(e){
+
+  }
+}  
