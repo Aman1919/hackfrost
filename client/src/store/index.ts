@@ -10,7 +10,7 @@ interface User {
 }
 
 interface AuthState {
-  user: User | null;
+  user: User | null | undefined;
   token: string | null;
   loading:boolean,
   setLoading:(bool:boolean)=>void,
@@ -19,7 +19,7 @@ interface AuthState {
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
+  user: undefined,
   token: null,
   loading:false,
   setLoading:(bool)=>set(()=>({loading:bool})),

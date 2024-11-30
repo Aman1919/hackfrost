@@ -4,7 +4,7 @@ import React from "react";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { user ,loading} = useAuthStore();
- if(loading){
+  if(loading || user===undefined){
     return <h1>Loading....</h1>;
  }
   if (!user) {
@@ -15,10 +15,10 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 };
 export const PublicRoute = ({ children }: { children: React.ReactNode }) => {
     const { user ,loading} = useAuthStore();
-   if(loading){
+   if(loading || user===undefined){
       return <h1>Loading....</h1>;
    }
-    if (user) {
+    if (user===null) {
       return <Navigate to="/home" />;
     }
   
