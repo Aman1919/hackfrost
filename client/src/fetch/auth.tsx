@@ -16,7 +16,6 @@ export async function authenticateUser(token: string) {
     }
 
     const data = await response.json();
-    console.log(data,url)
     return data; // The returned data should include the authenticated user and token
   } catch (error) {
     console.error("Error in authenticateUser:", error);

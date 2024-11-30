@@ -4,15 +4,27 @@ import axios from "axios";
 // Replace with your YouTube Data API key
 
 // Function to extract the video ID from a YouTube URL
-function extractVideoId(url:string) {
+export function extractVideoId(url:string) {
   const regex = /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|(?:watch\?v=|shorts\/)([^"&?/ ]+)))/;
   const match = url.match(regex);
   return match ? match[1] : null;
 }
 
+export function extractTimeStamps(description:string){
+
+      // Extract timestamps using a regular expression
+      const timestampRegex = /(\d{1,2}:\d{2}(?::\d{2})?)\s+-\s+(.+)/g;
+      const timestamps = [];
+
+      let match;
+      while ((match = timestampRegex.exec(description)) !== null) {
+        timestamps.push({ time: match[1], title: match[2] });
+      }
+
+      return timestamps;
+}
 // Function to get video details from YouTube using the YouTube Data API
-export async function getYouTubeVideoDetails(videoUrl:string) {
-  const videoId = extractVideoId(videoUrl);
+export async function getYouTubeVideoDetails(videoId:string) {
   console.log(videoId);
   if (!videoId) {
     throw new Error('Invalid YouTube URL');
@@ -23,6 +35,7 @@ export async function getYouTubeVideoDetails(videoUrl:string) {
   try {
     const response = await axios.get(apiUrl);
     const videoDetails =await response.data.items[0];
+    const timestamps = extractTimeStamps(videoDetails.snippet.description);
     if (videoDetails) {
       return {
         title: videoDetails.snippet.title,
@@ -31,7 +44,8 @@ export async function getYouTubeVideoDetails(videoUrl:string) {
         viewCount: videoDetails.statistics.viewCount,
         likeCount: videoDetails.statistics.likeCount,
         dislikeCount: videoDetails.statistics.dislikeCount,
-        duration: videoDetails.contentDetails.duration, // ISO 8601 format
+        duration: videoDetails.contentDetails.duration,
+        timestamps
       };
     } else {
       throw new Error('Video not found');

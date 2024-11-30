@@ -7,11 +7,13 @@ import NavBar from './components/navbar';
 import ProtectedRoute, { PublicRoute } from './components/routeComponents';
 import AuthWrapper from './hooks/auth';
 import React from 'react';
+import AllCourses from './pages/allcourse';
+import Course from './components/course';
 export default function App() {
   return (
     <div>
-      <NavBar/>
       <BrowserRouter>
+      <NavBar/>
       <AuthWrapper>
         <Routes>
           <Route path="/login" element={<PublicRoute> <Login /></PublicRoute>} />
@@ -30,6 +32,30 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/allcourse"
+            element={
+              <ProtectedRoute>
+                <AllCourses/>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/course/:id"
+            element={
+              <ProtectedRoute>
+                <Course/>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/account"
+            element={
+              <ProtectedRoute>
+                Account
               </ProtectedRoute>
             }
           />

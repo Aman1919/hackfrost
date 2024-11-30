@@ -14,6 +14,7 @@ const AuthWrapper = ({ children }: { children: React.ReactNode }) => {
     if (token) {
       authenticateUser(token)
         .then((data) => {
+        console.log(data.user.user);
           setUser(data.user, token);
         })
         .catch((err) => {
