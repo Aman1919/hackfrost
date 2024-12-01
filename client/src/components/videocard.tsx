@@ -29,16 +29,12 @@ function VideoCard({ video }:any) {
 
       {/* Card Content */}
       <div className="p-4">
-        {/* Title */}
-        <h2 className="text-lg font-semibold text-gray-800 mb-2">
-          {title || "No Title Provided"}
-        </h2>
-
+       
         
 
         {/* Actions */}
         <div className="flex justify-between items-center">
-          <button onClick={()=>navigate(`/course/${videoId}`)} className="bg-blue-500 hover:bg-blue-600 text-white text-sm px-4 py-2 rounded-md">
+          <button onClick={()=>navigate(`/course/${id}`)} className="bg-blue-500 hover:bg-blue-600 text-white text-sm px-4 py-2 rounded-md">
             Watch Now
           </button>
           <button className="text-blue-500 hover:underline text-sm">

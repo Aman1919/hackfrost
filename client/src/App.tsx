@@ -8,7 +8,7 @@ import ProtectedRoute, { PublicRoute } from './components/routeComponents';
 import AuthWrapper from './hooks/auth';
 import React from 'react';
 import AllCourses from './pages/allcourse';
-import Course from './components/course';
+import Course from './components/course/course';
 export default function App() {
   return (
     <div>
@@ -48,14 +48,6 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <Course/>
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/account"
-            element={
-              <ProtectedRoute>
-                Account
               </ProtectedRoute>
             }
           />

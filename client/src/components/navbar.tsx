@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store";
+import Spinner from "./spinner";
 
 export default function NavBar() {
   const navigate = useNavigate();
@@ -8,8 +9,8 @@ export default function NavBar() {
 
   const handleLogout = () => {
     // Add your logout logic here
-    console.log("User logged out");
-    navigate("/");
+    localStorage.removeItem('token');
+    window.location.href = "/"
   };
 
   return (
@@ -39,14 +40,7 @@ export default function NavBar() {
                 All Courses
               </button>
             </li>
-            <li>
-              <button
-                onClick={() => navigate("/account")}
-                className="hover:text-blue-500 transition-colors duration-200"
-              >
-                Account
-              </button>
-            </li>
+           
           </ul>
         )}
 
@@ -77,7 +71,7 @@ export default function NavBar() {
               </>
             )
           ) : (
-            <p>Loading...</p>
+            <Spinner/>
           )}
         </div>
       </nav>
